@@ -8,7 +8,8 @@ TESTING
 
 This application utilizes both the Jersey and CXF annotations in a common Java class "org.ordermgmt.ProcessOrderImpl" to demonstrate how to implement a REST and SOAP service in a single component.
 
-- Importing this example project into Mule Studio
+Importing this example project into Mule Studio
+-----------------------------------------------
 
 1) Clone this git repoistory to a local directory
 
@@ -18,7 +19,8 @@ This application utilizes both the Jersey and CXF annotations in a common Java c
 	- Project Root select local directory from step (1)
 	- Click "Finish"
 
-- Testing the REST component
+Testing the REST component
+--------------------------
 
 1) Start the application from within Mule Studio, by right clicking on the project and selecting 'Run As > Mule Application'
 
@@ -31,7 +33,8 @@ This application utilizes both the Jersey and CXF annotations in a common Java c
 
 5) Note: For testing locally the http.rest.port parameter is required to be set, this can be found in the /src/main/app/mule-app.properties file
 
-- Testing the SOAP component
+Testing the SOAP component
+--------------------------
 
 1) Start the application from within Mule Studio, by right clicking on the project and selecting 'Run As > Mule Application'
 
