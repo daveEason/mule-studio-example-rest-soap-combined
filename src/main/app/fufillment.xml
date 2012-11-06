@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" version="EE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd 
+http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd 
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/5.0/mule-sfdc.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
+    <sfdc:config name="sfconfig" username="username" password="password" securityToken="TOKEN" doc:name="Salesforce" doc:description="Global configuration for Salesforce operations"/>
+    <cxf:configuration initializeStaticBusInstance="false" doc:name="CXF Configuration" doc:description="Global CXF Configuration"/>
+    <flow name="fulfillment-soap-flow" doc:name="fulfillment-soap-flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.soap.port}" path="order" doc:name="HTTP" doc:description="Process HTTP reqests or responses."/>
+        <cxf:jaxws-service serviceClass="org.ordermgmt.IProcessOrder" doc:name="SOAP (Interface)" doc:description="Make a web service available via CXF"/>
+        <logger message="SOAP request received, payload = #[message.payload]" level="INFO" doc:name="LOG Soap request"/>
+        <component class="org.ordermgmt.ProcessOrderImpl" doc:name="Process Order (Implementation)" doc:description="Invoke a Java component"/>
+    </flow>
+    <flow name="fulfillment-rest-flow" doc:name="fulfillment-rest-flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${http.rest.port}" path="order" doc:name="HTTP" doc:description="Process HTTP reqests or responses."/>
+        <jersey:resources doc:name="REST (Implementation)">
+            <component class="org.ordermgmt.ProcessOrderImpl"/>
+        </jersey:resources>
+        <logger message="REST request received, payload = #[message.payload]" level="INFO" doc:name="LOG Rest request"/>
+    </flow>
+</mule>
